@@ -1,4 +1,5 @@
 const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
     // 1. Se estrablece modo desarrollo
     mode: 'development',
@@ -13,11 +14,7 @@ module.exports = {
         // 6. Servidor desarrollo, ruta path publico 
         publicPath: '/'
     },
-    devServer: {
-        static: path.join(__dirname, 'public'),
-        port: 8085,
-        host: 'localhost'
-    },
+    
     module: {
         rules: [
             {
@@ -52,7 +49,16 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                test: /\.css$/,
+                use: [MiniCssExtractPlugin.loader, 'css-loader']
             }
         ]
-    }
+    },
+    plugins: [
+        new MiniCssExtractPlugin({
+            filename: 'styles/app.css'
+        })
+    ]
 }
