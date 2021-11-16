@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Compañia', author: 'Aaron Ovando', appName: 'Web Pack' });
+  res.render('index', { title: 'Compañia', author: 'Aaron Ovando', appName: 'Maritima' });
 });
 
 /* Agregando una ruta */
