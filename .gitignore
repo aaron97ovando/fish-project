@@ -1,2 +1,5 @@
 # Ignorando las dependencias
 node_modules
+
+# Ignorando dependencias
+dist-server
