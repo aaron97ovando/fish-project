@@ -1,20 +1,58 @@
 const path = require('path');
 module.exports = {
-    // 1. Estableciendo el modo de ejecución
+    // 1. Se estrablece modo desarrollo
     mode: 'development',
-    // 2. Se crea el archivo de entrada
+    // 2. Especificar archivo entrada
     entry: './client/index.js',
-    // 3. Especificando el archivo de salida
-    output:{
-        // 4. Ruta absoluta de salida
+    // 3. Salida de empaquetado
+    output: {
+        // 4. Ruta absoluta salida
         path: path.join(__dirname, 'public'),
-        // 5. Nombre del archivo de salida
-        filename: 'js/bundle.js'
-        // 6. Ruta del path publica para fines del servidor de desarrollo
+        // 5. Nombre archivo salida
+        filename: 'js/bundle.js',
+        // 6. Servidor desarrollo, ruta path publico 
+        publicPath: '/'
     },
     devServer: {
-        static: './public',
+        static: path.join(__dirname, 'public'),
         port: 8085,
         host: 'localhost'
+    },
+    module: {
+        rules: [
+            {
+                test: /\.js$ /,
+                exclude: /(node_modules|bower_components)/,
+                use: [
+                    {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [
+                                [
+                                    '@babel/preset-env',
+                                    {
+                                        'modules': false,
+                                        'useBuiltIns': 'usage',
+                                        'targets': {"chrome": "80"},
+                                        'corejs': 3
+                                    }
+                                ]
+                            ],
+                            "plugins": [
+                                [
+                                    "module-resolver",
+                                    {
+                                        "root": ["./"],
+                                        "alias":{
+                                            "@client" : "./client",
+                                        }
+                                    }
+                                ]
+                            ]
+                        }
+                    }
+                ]
+            }
+        ]
     }
 }
