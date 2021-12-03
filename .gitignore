@@ -3,3 +3,6 @@ node_modules
 
 # Ignorando dependencias
 dist-server
+# Ignorando los archivos de logs
+logs
+*.logs
