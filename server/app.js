@@ -1,3 +1,6 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable prettier/prettier */
 /* eslint-disable no-console */
 import createError from 'http-errors';
 
@@ -6,54 +9,64 @@ import express from 'express';
 import path from 'path';
 
 import cookieParser from 'cookie-parser';
+
 import morgan from 'morgan';
-import winston from 'winston';
+
+import winston from '@server/config/winston';
 
 import indexRouter from '@s-routes/index';
 
 import usersRouter from '@s-routes/users';
-// Importing configurations
-import configTemplateEngine  from '@s-config/template-engine'
-// Webpack Modules
+
+
+// importar modulos de webpack
 import webpack from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
+import WebpackDevMiddleware from 'webpack-dev-middleware';
+import WebpackHotMiddleware from 'webpack-hot-middleware';
 import webpackDevConfig from '../webpack.dev.config';
-// Consultar el modo en que se esta ejecutando la aplicaciom
+
+
+// consultar modo en que se ejecuta la aplicacion
 const env = process.env.NODE_ENV || 'developement';
-// Se crea la aplicación express
+
+
+// creacion aplicacion express
 const app = express();
-// Verificando el modo de ejecución de la aplicación
+
+// verficiar modo ejecucion de la aplicacion
+
 if (env === 'development') {
-  console.log('> Excecuting in Development Mode: Webpack Hot Reloading');
-  // Paso 1. Agregando la ruta del HMR
-  // reload=true: Habilita la recarga del frontend cuando hay cambios en el codigio
-  // fuente del frontend
-  // timeout=1000: Tiempo de espera entre recarga y recarga de la pagina
+  console.log('> Excecuting in Development Mode: Webpack hot Reloading');
+  // ruta del Hot module replasmen
+  // reload=true: habilita recarga fronted al tener cambios en codigo fuente del fronted
+  // timeout=1000: Tiempo espera recarga
   webpackDevConfig.entry = [
-    'webpack-hot-middleware/client?reload=true&timeout=1000',
+    'Webpack-hot-middleware/client?reload=true&timeout=1000',
     webpackDevConfig.entry,
   ];
-  // Paso 2. Agregamos el plugin
+
+  // Agregar plugin
   webpackDevConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
-  // Paso 3. Crear el compilador de webpack
+
+  // Compilador
   const compiler = webpack(webpackDevConfig);
-  // Paso 4. Agregando el Middleware a la cadena de Middlewares
-  // de nuestra aplicación
+
+  // Agregando middleware a cadena
   app.use(
-    webpackDevMiddleware(compiler, {
+    WebpackDevMiddleware(compiler, {
       publicPath: webpackDevConfig.output.publicPath,
-    })
+    }),
   );
-  // Paso 5. Agregando el Webpack Hot middleware
-  app.use(webpackHotMiddleware(compiler));
+  
+  // webpack hot middleware
+  app.use(WebpackHotMiddleware(compiler));
 } else {
-  console.log('> Excecuting in Production Mode...');
+  console.log('> Excecuting in Production Mode... ');
 }
 
 // view engine setup
-configTemplateEngine(app);
-
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
 app.use(morgan('combined', { stream: winston.stream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -80,3 +93,4 @@ app.use((err, req, res) => {
 });
 
 module.exports = app;
+  

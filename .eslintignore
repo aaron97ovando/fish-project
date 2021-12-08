@@ -1,2 +1,2 @@
-# Ignora configuradores
-*.config.js
+#ignorar los archivos
+*.confing.js

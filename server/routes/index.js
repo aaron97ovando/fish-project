@@ -1,14 +1,12 @@
-var express = require('express');
-var router = express.Router();
+/* eslint-disable prettier/prettier */
 
+const express = require('express');
+
+const router = express.Router();
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Compañia', author: 'Aaron Ovando', appName: 'Maritima' });
+router.get('/', (req, res) => {
+  res.render('index', { title: 'Express' });
 });
 
-/* Agregando una ruta */
-router.get('/greeting', function(req, res, next) {
-  res.send('Hola Este sera el Proyecto final del la Materia');
-})
-
 module.exports = router;
+
