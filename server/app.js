@@ -11,8 +11,10 @@ import path from 'path';
 
 import cookieParser from 'cookie-parser';
 
+// Importacion morgan
 import morgan from 'morgan';
 
+// Importar Winston con ruta
 import winston from '@server/config/winston';
 
 import indexRouter from '@s-routes/index';
@@ -20,7 +22,8 @@ import indexRouter from '@s-routes/index';
 import usersRouter from '@s-routes/users';
 
 
-// Importar modulos de webpack
+// Importaremos los modulos de webpack
+
 import webpack from 'webpack';
 
 import WebpackDevMiddleware from 'webpack-dev-middleware';
@@ -28,11 +31,13 @@ import WebpackHotMiddleware from 'webpack-hot-middleware';
 import webpackDevConfig from '../webpack.dev.config';
 
 
-// Consultar modo en que se ejecuta la aplicacion
+// Consultar modo en ejecuta de la aplicacion
+
 const env = process.env.NODE_ENV || 'developement';
 
 
-// Creacion aplicacion express
+// Creacion de express
+
 const app = express();
 
 // Verficiar modo ejecucion de la aplicacion
@@ -63,12 +68,16 @@ if (env === 'development') {
   // Webpack hot middleware
   app.use(WebpackHotMiddleware(compiler));
 } else {
-  console.log('> Excecuting in Production Mode... ');
+  console.log('> Excecuting in Production Mode...');
 }
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
+
+// Importaremos morgan con middleware y Juntamos loggees y winton
+
 app.use(morgan('combined', { stream: winston.stream }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
