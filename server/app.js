@@ -2,6 +2,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint-disable prettier/prettier */
 /* eslint-disable no-console */
+
 import createError from 'http-errors';
 
 import express from 'express';
@@ -21,6 +22,7 @@ import usersRouter from '@s-routes/users';
 
 // importar modulos de webpack
 import webpack from 'webpack';
+
 import WebpackDevMiddleware from 'webpack-dev-middleware';
 import WebpackHotMiddleware from 'webpack-hot-middleware';
 import webpackDevConfig from '../webpack.dev.config';
@@ -47,8 +49,7 @@ if (env === 'development') {
 
   // Agregar plugin
   webpackDevConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
-
-  // Compilador
+  // compilador
   const compiler = webpack(webpackDevConfig);
 
   // Agregando middleware a cadena
@@ -57,7 +58,7 @@ if (env === 'development') {
       publicPath: webpackDevConfig.output.publicPath,
     }),
   );
-  
+
   // webpack hot middleware
   app.use(WebpackHotMiddleware(compiler));
 } else {
@@ -93,4 +94,3 @@ app.use((err, req, res) => {
 });
 
 module.exports = app;
-  
