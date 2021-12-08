@@ -20,7 +20,7 @@ import indexRouter from '@s-routes/index';
 import usersRouter from '@s-routes/users';
 
 
-// importar modulos de webpack
+// Importar modulos de webpack
 import webpack from 'webpack';
 
 import WebpackDevMiddleware from 'webpack-dev-middleware';
@@ -28,14 +28,14 @@ import WebpackHotMiddleware from 'webpack-hot-middleware';
 import webpackDevConfig from '../webpack.dev.config';
 
 
-// consultar modo en que se ejecuta la aplicacion
+// Consultar modo en que se ejecuta la aplicacion
 const env = process.env.NODE_ENV || 'developement';
 
 
-// creacion aplicacion express
+// Creacion aplicacion express
 const app = express();
 
-// verficiar modo ejecucion de la aplicacion
+// Verficiar modo ejecucion de la aplicacion
 
 if (env === 'development') {
   console.log('> Excecuting in Development Mode: Webpack hot Reloading');
@@ -49,7 +49,8 @@ if (env === 'development') {
 
   // Agregar plugin
   webpackDevConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
-  // compilador
+
+  // Compilador
   const compiler = webpack(webpackDevConfig);
 
   // Agregando middleware a cadena
@@ -59,13 +60,13 @@ if (env === 'development') {
     }),
   );
 
-  // webpack hot middleware
+  // Webpack hot middleware
   app.use(WebpackHotMiddleware(compiler));
 } else {
   console.log('> Excecuting in Production Mode... ');
 }
 
-// view engine setup
+// View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.use(morgan('combined', { stream: winston.stream }));
